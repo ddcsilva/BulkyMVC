@@ -15,7 +15,7 @@ namespace Bulky.Controllers
         public IActionResult Index()
         {
             var categorias = context.Categorias.ToList();
-            return View();
+            return View(categorias);
         }
     }
 }
