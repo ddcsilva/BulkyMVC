@@ -6,35 +6,29 @@
             <h2 class="text-primary">Categorias</h2>
         </div>
         <div class="col-6 text-end">
-            <a class="btn btn-primary" asp-controller="Categoria" asp-action="Create">
-                <i class="bi bi-plus-circle"></i> Nova Categoria
+            <a class="btn btn-primary" asp-controller="Categoria" asp-action="Adicionar">
+                <i class="bi bi-plus-circle"></i> Adicionar
             </a>
         </div>
     </div>
 
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>
-                    Nome da Categoria
-                </th>
-                <th>
-                    Ordem de Exibição
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.OrderBy(x => x.OrdemExibicao))
-            {
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
                 <tr>
-                    <td>
-                        @item.Nome
-                    </td>
-                    <td>
-                        @item.OrdemExibicao
-                    </td>
+                    <th>Categoria</th>
+                    <th>Ordem de Exibição</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderBy(x => x.OrdemExibicao))
+                {
+                    <tr>
+                        <td>@item.Nome</td>
+                        <td>@item.OrdemExibicao</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

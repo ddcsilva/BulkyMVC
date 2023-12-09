@@ -1,0 +1,31 @@
+﻿@model Categoria
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Nova Categoria</h2>
+            <hr />
+        </div>
+        <div class="mb-3 row">
+            <label for="nome" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="nome" name="nome" required />
+        </div>
+        <div class="mb-3 row">
+            <label for="ordem" class="form-label">Ordem de Exibição</label>
+            <input type="number" class="form-control" id="ordem" name="ordem" required />
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-md-3">
+                <button type="submit" class="btn btn-primary form-control">
+                    <i class="bi bi-check-circle"></i> Adicionar
+                </button>
+            </div>
+            <div class="col-6 col-md-3">
+                <a asp-controller="Categoria" asp-action="Index" class="btn btn-outline-secondary border form-control">
+                    <i class="bi bi-arrow-left-circle"></i> Voltar
+                </a>
+            </div>
+        </div>
+    </div>
+</form>

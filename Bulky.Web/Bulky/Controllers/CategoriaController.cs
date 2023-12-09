@@ -17,5 +17,10 @@ namespace Bulky.Controllers
             var categorias = context.Categorias.ToList();
             return View(categorias);
         }
+
+        public IActionResult Adicionar()
+        {
+            return View();
+        }
     }
 }
