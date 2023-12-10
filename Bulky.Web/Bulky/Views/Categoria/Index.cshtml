@@ -18,6 +18,7 @@
                 <tr>
                     <th>Categoria</th>
                     <th>Ordem de Exibição</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -26,6 +27,16 @@
                     <tr>
                         <td>@item.Nome</td>
                         <td>@item.OrdemExibicao</td>
+                        <td>
+                            <div class="w-75 btn-group" role="group">
+                                <a asp-controller="Categoria" asp-action="Alterar" class="btn btn-primary mx-2">
+                                    <i class="bi bi-pencil-square"></i> Alterar
+                                </a>
+                                <a asp-controller="Categoria" asp-action="Excluir" class="btn btn-danger mx-2">
+                                    <i class="bi bi-trash"></i> Excluir
+                                </a>
+                            </div>
+                        </td>
                     </tr>
                 }
             </tbody>
