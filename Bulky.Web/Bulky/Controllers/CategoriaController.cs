@@ -42,13 +42,20 @@ namespace Bulky.Controllers
         [HttpPost]
         public IActionResult Adicionar(Categoria categoria)
         {
-            // Adiciona o objeto categoria ao contexto do banco de dados
-            context.Add(categoria);
-            // Salva as alterações no banco de dados
-            context.SaveChanges();
+            // Verifica se o modelo é válido
+            if (ModelState.IsValid)
+            {
+                // Adiciona o objeto categoria ao contexto do banco de dados
+                context.Add(categoria);
+                // Salva as alterações no banco de dados
+                context.SaveChanges();
 
-            // Redireciona para a action Index
-            return RedirectToAction(nameof(Index));
+                // Redireciona para a action Index
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Se o modelo não for válido, retorna a view com o formulário preenchido            
+            return View();
         }
     }
 }
