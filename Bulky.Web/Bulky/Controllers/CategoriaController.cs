@@ -39,6 +39,11 @@ namespace Bulky.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Action responsável por adicionar uma categoria.
+        /// </summary>
+        /// <param name="categoria"> Objeto categoria preenchido com os dados do formulário. </param>
+        /// <returns> Redireciona para a action Index ou retorna a view com o formulário preenchido. </returns>
         [HttpPost]
         public IActionResult Adicionar(Categoria categoria)
         {
@@ -56,6 +61,29 @@ namespace Bulky.Controllers
 
             // Se o modelo não for válido, retorna a view com o formulário preenchido            
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Alterar(int? id)
+        {
+            // Verifica se o id é nulo ou menor ou igual a zero
+            if (id == null || id <= 0)
+            {
+                // Retorna o erro 404
+                return NotFound();
+            }
+
+            // Busca a categoria no banco de dados
+            Categoria categoriaParaAlterar = context.Categorias.Find(id);
+
+            // Verifica se a categoria foi encontrada
+            if (categoriaParaAlterar == null)
+            {
+                // Retorna o erro 404
+                return NotFound();
+            }
+
+            return View(categoriaParaAlterar);
         }
     }
 }
