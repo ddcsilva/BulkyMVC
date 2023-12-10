@@ -42,12 +42,6 @@ namespace Bulky.Controllers
         [HttpPost]
         public IActionResult Adicionar(Categoria categoria)
         {
-            // Verifica se o nome da categoria é igual a ordem de exibição
-            if(categoria.Nome == categoria.OrdemExibicao.ToString())
-            {
-                ModelState.AddModelError("OrdemExibicao", "A ordem de exibição não pode ser igual ao nome da categoria.");
-            }
-
             // Verifica se o modelo é válido
             if (ModelState.IsValid)
             {
