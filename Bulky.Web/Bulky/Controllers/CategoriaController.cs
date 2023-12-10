@@ -26,6 +26,7 @@ namespace Bulky.Controllers
             // Busca todas as categorias do banco de dados.
             var categorias = context.Categorias.ToList();
 
+            // Retorna a view com a lista de categorias.
             return View(categorias);
         }
 
@@ -88,6 +89,7 @@ namespace Bulky.Controllers
                 return NotFound();
             }
 
+            // Retorna a view com a categoria a ser alterada
             return View(categoriaParaAlterar);
         }
 
@@ -113,6 +115,52 @@ namespace Bulky.Controllers
 
             // Se o modelo não for válido, retorna a view com o formulário preenchido            
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Excluir(int? id)
+        {
+            // Verifica se o id é nulo ou menor ou igual a zero
+            if (id == null || id <= 0)
+            {
+                // Retorna o erro 404
+                return NotFound();
+            }
+
+            // Busca a categoria no banco de dados
+            Categoria categoriaParaExcluir = context.Categorias.Find(id);
+
+            // Verifica se a categoria foi encontrada
+            if (categoriaParaExcluir == null)
+            {
+                // Retorna o erro 404
+                return NotFound();
+            }
+
+            // Retorna a view com a categoria a ser excluída
+            return View(categoriaParaExcluir);
+        }
+
+        [HttpPost, ActionName("Excluir")]
+        public IActionResult ExcluirRequest(int? id)
+        {
+            // Busca a categoria no banco de dados
+            Categoria? categoriaParaExcluir = context.Categorias.Find(id);
+
+            // Verifica se a categoria foi encontrada
+            if (categoriaParaExcluir == null)
+            {
+                // Retorna o erro 404
+                return NotFound();
+            }
+
+            // Remove a categoria do banco de dados
+            context.Remove(categoriaParaExcluir);
+            // Salva as alterações no banco de dados
+            context.SaveChanges();
+
+            // Redireciona para a action Index
+            return RedirectToAction(nameof(Index));
         }
     }
 }
