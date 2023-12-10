@@ -5,24 +5,22 @@
 
     <div class="border p-3 mt-4">
         <div class="row pb-2">
-            <h2 class="text-primary">Alterar Categoria</h2>
+            <h2 class="text-primary">Excluir Categoria</h2>
             <hr />
         </div>
         <div class="mb-3 row">
             <label asp-for="Nome" class="form-label"></label>
-            <input asp-for="Nome" class="form-control" />
-            <span asp-validation-for="Nome" class="text-danger"></span>
+            <input asp-for="Nome" disabled class="form-control" />
         </div>
         <div class="mb-3 row">
             <label asp-for="OrdemExibicao" class="form-label"></label>
-            <input asp-for="OrdemExibicao" class="form-control" />
-            <span asp-validation-for="OrdemExibicao" class="text-danger"></span>
+            <input asp-for="OrdemExibicao" disabled class="form-control" />
         </div>
 
         <div class="row">
             <div class="col-6 col-md-3">
-                <button type="submit" class="btn btn-primary form-control">
-                    <i class="bi bi-check-circle"></i> Alterar
+                <button type="submit" class="btn btn-danger form-control">
+                    <i class="bi bi-check-circle"></i> Excluir
                 </button>
             </div>
             <div class="col-6 col-md-3">
@@ -33,9 +31,3 @@
         </div>
     </div>
 </form>
-
-@section Scripts {
-    @{
-        <partial name="_ValidationScriptsPartial" />
-    }
-}
