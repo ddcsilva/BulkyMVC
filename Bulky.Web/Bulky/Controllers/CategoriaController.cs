@@ -63,6 +63,11 @@ namespace Bulky.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Action responsável por exibir o formulário de alteração de categoria.
+        /// </summary>
+        /// <param name="id"> Id da categoria a ser alterada. </param>
+        /// <returns> View com o formulário de alteração de categoria. </returns>
         [HttpGet]
         public IActionResult Alterar(int? id)
         {
@@ -84,6 +89,30 @@ namespace Bulky.Controllers
             }
 
             return View(categoriaParaAlterar);
+        }
+
+        /// <summary>
+        /// Action responsável por alterar uma categoria.
+        /// </summary>
+        /// <param name="categoria"> Objeto categoria preenchido com os dados do formulário. </param>
+        /// <returns> Redireciona para a action Index ou retorna a view com o formulário preenchido. </returns>
+        [HttpPost]
+        public IActionResult Alterar(Categoria categoria)
+        {
+            // Verifica se o modelo é válido
+            if (ModelState.IsValid)
+            {
+                // Atualiza o objeto categoria no contexto do banco de dados
+                context.Update(categoria);
+                // Salva as alterações no banco de dados
+                context.SaveChanges();
+
+                // Redireciona para a action Index
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Se o modelo não for válido, retorna a view com o formulário preenchido            
+            return View();
         }
     }
 }
