@@ -55,6 +55,8 @@ namespace Bulky.Controllers
                 context.Add(categoria);
                 // Salva as alterações no banco de dados
                 context.SaveChanges();
+                // Adiciona uma mensagem de sucesso na sessão
+                TempData["MensagemSucesso"] = "Categoria adicionada com sucesso.";
 
                 // Redireciona para a action Index
                 return RedirectToAction(nameof(Index));
@@ -108,6 +110,8 @@ namespace Bulky.Controllers
                 context.Update(categoria);
                 // Salva as alterações no banco de dados
                 context.SaveChanges();
+                // Adiciona uma mensagem de sucesso na sessão
+                TempData["MensagemSucesso"] = "Categoria alterada com sucesso.";
 
                 // Redireciona para a action Index
                 return RedirectToAction(nameof(Index));
@@ -158,6 +162,8 @@ namespace Bulky.Controllers
             context.Remove(categoriaParaExcluir);
             // Salva as alterações no banco de dados
             context.SaveChanges();
+            // Adiciona uma mensagem de sucesso na sessão
+            TempData["MensagemSucesso"] = "Categoria excluída com sucesso.";
 
             // Redireciona para a action Index
             return RedirectToAction(nameof(Index));
