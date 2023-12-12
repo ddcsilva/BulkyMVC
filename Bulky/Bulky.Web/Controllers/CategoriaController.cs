@@ -1,8 +1,8 @@
-﻿using Bulky.Data;
+﻿using Bulky.DataAccess.Data;
 using Bulky.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Bulky.Controllers
+namespace Bulky.Web.Controllers
 {
     /// <summary>
     /// Controller responsável por gerenciar as categorias.

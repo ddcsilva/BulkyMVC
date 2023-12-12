@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Bulky.Models;
 
+/// <summary>
+/// Classe que representa a tabela Categoria
+/// </summary>
 public class Categoria
 {
     [Key]
