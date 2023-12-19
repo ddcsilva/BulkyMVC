@@ -6,9 +6,9 @@ namespace Bulky.DataAccess.Data;
 /// <summary>
 /// Classe que representa o contexto do banco de dados
 /// </summary>
-public class ApplicationDbContext : DbContext
+public class BulkyContext : DbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+    public BulkyContext(DbContextOptions<BulkyContext> options) : base(options) { }
 
     // Representam as tabelas do banco de dados
     public DbSet<Categoria> Categorias { get; set; }

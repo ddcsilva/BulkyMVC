@@ -9,9 +9,9 @@ namespace Bulky.Web.Controllers
     /// </summary>
     public class CategoriaController : Controller
     {
-        private readonly ApplicationDbContext context;
+        private readonly BulkyContext context;
 
-        public CategoriaController(ApplicationDbContext context)
+        public CategoriaController(BulkyContext context)
         {
             this.context = context;
         }
