@@ -14,12 +14,6 @@ public class CategoriaRepository : Repository<Categoria>, ICategoriaRepository
         _context = context;
     }
 
-    public void Salvar()
-    {
-        // Salva as alterações no banco de dados
-        _context.SaveChanges();
-    }
-
     public void Atualizar(Categoria entidade)
     {
         // Atualiza a entidade de Categoria no DbSet
