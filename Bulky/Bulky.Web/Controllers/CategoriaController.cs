@@ -10,11 +10,11 @@ namespace Bulky.Web.Controllers
     /// </summary>
     public class CategoriaController : Controller
     {
-        private readonly ICategoriaRepository _categoriaRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CategoriaController(ICategoriaRepository categoriaRepository)
+        public CategoriaController(IUnitOfWork unitOfWork)
         {
-            _categoriaRepository = categoriaRepository;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace Bulky.Web.Controllers
         public IActionResult Index()
         {
             // Busca todas as categorias do banco de dados.
-            var categorias = _categoriaRepository.ObterTodos().ToList();
+            var categorias = _unitOfWork.Categoria.ObterTodos().ToList();
 
             // Retorna a view com a lista de categorias.
             return View(categorias);
@@ -53,9 +53,9 @@ namespace Bulky.Web.Controllers
             if (ModelState.IsValid)
             {
                 // Adiciona o objeto categoria ao contexto do banco de dados
-                _categoriaRepository.Adicionar(categoria);
+                _unitOfWork.Categoria.Adicionar(categoria);
                 // Salva as alterações no banco de dados
-                _categoriaRepository.Salvar();
+                _unitOfWork.Salvar();
                 // Adiciona uma mensagem de sucesso na sessão
                 TempData["MensagemSucesso"] = "Categoria adicionada com sucesso.";
 
@@ -83,7 +83,7 @@ namespace Bulky.Web.Controllers
             }
 
             // Busca a categoria no banco de dados
-            Categoria categoriaParaAlterar = _categoriaRepository.Obter(c => c.Id == id);
+            Categoria categoriaParaAlterar = _unitOfWork.Categoria.Obter(c => c.Id == id);
 
             // Verifica se a categoria foi encontrada
             if (categoriaParaAlterar == null)
@@ -108,9 +108,9 @@ namespace Bulky.Web.Controllers
             if (ModelState.IsValid)
             {
                 // Atualiza o objeto categoria no contexto do banco de dados
-                _categoriaRepository.Atualizar(categoria);
+                _unitOfWork.Categoria.Atualizar(categoria);
                 // Salva as alterações no banco de dados
-                _categoriaRepository.Salvar();
+                _unitOfWork.Salvar();
                 // Adiciona uma mensagem de sucesso na sessão
                 TempData["MensagemSucesso"] = "Categoria alterada com sucesso.";
 
@@ -133,7 +133,7 @@ namespace Bulky.Web.Controllers
             }
 
             // Busca a categoria no banco de dados
-            Categoria categoriaParaExcluir = _categoriaRepository.Obter(c => c.Id == id);
+            Categoria categoriaParaExcluir = _unitOfWork.Categoria.Obter(c => c.Id == id);
 
             // Verifica se a categoria foi encontrada
             if (categoriaParaExcluir == null)
@@ -150,7 +150,7 @@ namespace Bulky.Web.Controllers
         public IActionResult ExcluirRequest(int? id)
         {
             // Busca a categoria no banco de dados
-            Categoria? categoriaParaExcluir = _categoriaRepository.Obter(c => c.Id == id);
+            Categoria? categoriaParaExcluir = _unitOfWork.Categoria.Obter(c => c.Id == id);
 
             // Verifica se a categoria foi encontrada
             if (categoriaParaExcluir == null)
@@ -160,9 +160,9 @@ namespace Bulky.Web.Controllers
             }
 
             // Remove a categoria do banco de dados
-            _categoriaRepository.Remover(categoriaParaExcluir);
+            _unitOfWork.Categoria.Remover(categoriaParaExcluir);
             // Salva as alterações no banco de dados
-            _categoriaRepository.Salvar();
+            _unitOfWork.Salvar();
             // Adiciona uma mensagem de sucesso na sessão
             TempData["MensagemSucesso"] = "Categoria excluída com sucesso.";
 
