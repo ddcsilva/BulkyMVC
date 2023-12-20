@@ -3,11 +3,12 @@ using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Bulky.Web.Controllers
+namespace Bulky.Web.Areas.Admin.Controllers
 {
     /// <summary>
     /// Controller responsável por gerenciar as categorias.
     /// </summary>
+    [Area("Admin")]
     public class CategoriaController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
