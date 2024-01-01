@@ -11,6 +11,7 @@ public class UnitOfWork : IUnitOfWork
     // Representa o contexto do banco de dados
     private readonly BulkyContext _context;
     public ICategoriaRepository Categoria { get; private set; }
+    public IProdutoRepository Produto { get; private set; }
 
     public UnitOfWork(BulkyContext context)
     {
@@ -18,6 +19,9 @@ public class UnitOfWork : IUnitOfWork
 
         // Inicializa o repositório de Categoria
         Categoria = new CategoriaRepository(_context);
+
+        // Inicializa o repositório de Produto
+        Produto = new ProdutoRepository(_context);
     }
 
     public void Salvar()

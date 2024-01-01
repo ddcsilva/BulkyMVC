@@ -2,6 +2,9 @@
 
 namespace Bulky.Models;
 
+/// <summary>
+/// Classe que representa a tabela Produto
+/// </summary>
 public class Produto
 {
     [Key]

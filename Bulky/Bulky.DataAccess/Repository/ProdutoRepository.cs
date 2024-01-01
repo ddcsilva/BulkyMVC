@@ -7,19 +7,19 @@ namespace Bulky.DataAccess.Repository;
 /// <summary>
 /// Classe que representa o repositório de Produto
 /// </summary>
-public class CategoriaRepository : Repository<Categoria>, ICategoriaRepository
+public class ProdutoRepository : Repository<Produto>, IProdutoRepository
 {
     // Representa o contexto do banco de dados
     private readonly BulkyContext _context;
 
-    public CategoriaRepository(BulkyContext context) : base(context)
+    public ProdutoRepository(BulkyContext context) : base(context)
     {
         _context = context;
     }
 
-    public void Atualizar(Categoria entidade)
+    public void Atualizar(Produto entidade)
     {
-        // Atualiza a entidade de Categoria no DbSet
+        // Atualiza a entidade de Produto no DbSet
         _context.Update(entidade);
     }
 }
