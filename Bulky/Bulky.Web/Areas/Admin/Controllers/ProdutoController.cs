@@ -1,6 +1,7 @@
 ﻿using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Bulky.Web.Areas.Admin.Controllers;
 
@@ -26,6 +27,11 @@ public class ProdutoController : Controller
     {
         // Busca todos os produtos do banco de dados.
         var produtos = _unitOfWork.Produto.ObterTodos().ToList();
+        var listaCategorias = _unitOfWork.Categoria.ObterTodos().Select(c => new SelectListItem
+        {
+            Text = c.Nome,
+            Value = c.Id.ToString()
+        });
 
         // Retorna a view com a lista de produtos.
         return View(produtos);
