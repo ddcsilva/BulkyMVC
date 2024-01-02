@@ -42,6 +42,8 @@ public class Produto
     [Display(Name = "Preço para 100+")]
     public double Preco100 { get; set; }
 
+    public string ImagemUrl { get; set; }
+
     // Relacionamento com a tabela Categoria
     public int CategoriaId { get; set; }
 
