@@ -27,11 +27,6 @@ public class ProdutoController : Controller
     {
         // Busca todos os produtos do banco de dados.
         var produtos = _unitOfWork.Produto.ObterTodos().ToList();
-        var listaCategorias = _unitOfWork.Categoria.ObterTodos().Select(c => new SelectListItem
-        {
-            Text = c.Nome,
-            Value = c.Id.ToString()
-        });
 
         // Retorna a view com a lista de produtos.
         return View(produtos);
@@ -44,6 +39,14 @@ public class ProdutoController : Controller
     [HttpGet]
     public IActionResult Adicionar()
     {
+        var listaCategorias = _unitOfWork.Categoria.ObterTodos().Select(c => new SelectListItem
+        {
+            Text = c.Nome,
+            Value = c.Id.ToString()
+        });
+
+        ViewBag.Categorias = listaCategorias;
+
         return View();
     }
 
