@@ -13,10 +13,12 @@ namespace Bulky.Web.Areas.Admin.Controllers;
 public class ProdutoController : Controller
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public ProdutoController(IUnitOfWork unitOfWork)
+    public ProdutoController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
     {
         _unitOfWork = unitOfWork;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     /// <summary>
@@ -80,11 +82,36 @@ public class ProdutoController : Controller
     /// <param name="produto"> Objeto produto preenchido com os dados do formulário. </param>
     /// <returns> Redireciona para a action Index ou retorna a view com o formulário preenchido. </returns>
     [HttpPost]
-    public IActionResult AdicionarAtualizar(ProdutoViewModel produtoViewModel, IFormFile? formFile)
+    public IActionResult AdicionarAtualizar(ProdutoViewModel produtoViewModel, IFormFile? imagem)
     {
         // Verifica se o modelo é válido
         if (ModelState.IsValid)
         {
+            // Obtém o caminho da pasta wwwroot
+            var wwwRootPath = _webHostEnvironment.WebRootPath;
+
+            // Verifica se o arquivo foi enviado
+            if (imagem != null)
+            {
+                // Obtém a extensão do arquivo
+                var extensao = Path.GetExtension(imagem.FileName);
+                // Gera um nome único para o arquivo
+                var nomeArquivo = Guid.NewGuid().ToString();
+                // Obtém o caminho completo do diretório onde será salvo o arquivo  
+                var caminhoArquivo = Path.Combine(wwwRootPath, @"imagens\produtos");
+
+                // Cria o diretório se ele não existir
+                // FileMode.Create: cria um novo arquivo. Se o arquivo já existir, ele será substituído.
+                using (var fileStream = new FileStream(Path.Combine(caminhoArquivo, nomeArquivo + extensao), FileMode.Create))
+                {
+                    // Salva o arquivo no diretório
+                    imagem.CopyTo(fileStream);
+                }
+
+                // Monta o caminho do arquivo para salvar no banco de dados
+                produtoViewModel.Produto.ImagemUrl = @"\imagens\produtos\" + nomeArquivo + extensao;
+            }
+
             // Adiciona o objeto produto ao contexto do banco de dados
             _unitOfWork.Produto.Adicionar(produtoViewModel.Produto);
             // Salva as alterações no banco de dados
