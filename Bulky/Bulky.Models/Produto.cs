@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Bulky.Models;
@@ -42,11 +43,13 @@ public class Produto
     [Display(Name = "Preço para 100+")]
     public double Preco100 { get; set; }
 
+    [ValidateNever]
     public string ImagemUrl { get; set; }
 
     // Relacionamento com a tabela Categoria
     public int CategoriaId { get; set; }
 
+    [ValidateNever]
     [ForeignKey("CategoriaId")]
     public Categoria Categoria { get; set; }
 }

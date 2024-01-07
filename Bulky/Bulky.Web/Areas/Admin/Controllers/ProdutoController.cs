@@ -1,5 +1,6 @@
 ﻿using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
+using Bulky.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -39,15 +40,19 @@ public class ProdutoController : Controller
     [HttpGet]
     public IActionResult Adicionar()
     {
-        var listaCategorias = _unitOfWork.Categoria.ObterTodos().Select(c => new SelectListItem
+        var produtoViewModel = new ProdutoViewModel
         {
-            Text = c.Nome,
-            Value = c.Id.ToString()
-        });
+            Produto = new Produto(),
 
-        ViewBag.Categorias = listaCategorias;
+            // Busca todas as categorias do banco de dados e converte para um SelectListItem
+            ListaCategoria = _unitOfWork.Categoria.ObterTodos().Select(c => new SelectListItem
+            {
+                Text = c.Nome,
+                Value = c.Id.ToString()
+            })
+        };
 
-        return View();
+        return View(produtoViewModel);
     }
 
     /// <summary>
@@ -56,13 +61,13 @@ public class ProdutoController : Controller
     /// <param name="produto"> Objeto produto preenchido com os dados do formulário. </param>
     /// <returns> Redireciona para a action Index ou retorna a view com o formulário preenchido. </returns>
     [HttpPost]
-    public IActionResult Adicionar(Produto produto)
+    public IActionResult Adicionar(ProdutoViewModel produtoViewModel)
     {
         // Verifica se o modelo é válido
         if (ModelState.IsValid)
         {
             // Adiciona o objeto produto ao contexto do banco de dados
-            _unitOfWork.Produto.Adicionar(produto);
+            _unitOfWork.Produto.Adicionar(produtoViewModel.Produto);
             // Salva as alterações no banco de dados
             _unitOfWork.Salvar();
             // Adiciona uma mensagem de sucesso na sessão
@@ -71,9 +76,17 @@ public class ProdutoController : Controller
             // Redireciona para a action Index
             return RedirectToAction(nameof(Index));
         }
+        else
+        {
+            produtoViewModel.ListaCategoria = _unitOfWork.Categoria.ObterTodos().Select(c => new SelectListItem
+            {
+                Text = c.Nome,
+                Value = c.Id.ToString()
+            });
 
-        // Se o modelo não for válido, retorna a view com o formulário preenchido
-        return View(produto);
+            // Se o modelo não for válido, retorna a view com o formulário preenchido
+            return View(produtoViewModel);
+        }
     }
 
     /// <summary>
