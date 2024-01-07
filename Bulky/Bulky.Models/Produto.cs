@@ -13,8 +13,10 @@ public class Produto
     public int Id { get; set; }
 
     [Required]
+    [Display(Name = "Título")]
     public string Titulo { get; set; }
 
+    [Display(Name = "Descrição")]
     public string Descricao { get; set; }
 
     [Required]
@@ -44,6 +46,7 @@ public class Produto
     public double Preco100 { get; set; }
 
     [ValidateNever]
+    [Display(Name = "Imagem")]
     public string ImagemUrl { get; set; }
 
     // Relacionamento com a tabela Categoria
