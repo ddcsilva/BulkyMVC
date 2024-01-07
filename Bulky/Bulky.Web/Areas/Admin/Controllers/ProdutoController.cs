@@ -97,6 +97,21 @@ public class ProdutoController : Controller
                 var extensao = Path.GetExtension(imagem.FileName);
                 // Gera um nome único para o arquivo
                 var nomeArquivo = Guid.NewGuid().ToString();
+
+                if (!string.IsNullOrEmpty(produtoViewModel.Produto.ImagemUrl))
+                {
+                    // Obtém o caminho completo do arquivo existente
+                    // TrimStart: remove a barra invertida do início da string
+                    var caminhoArquivoExistente = Path.Combine(wwwRootPath, produtoViewModel.Produto.ImagemUrl.TrimStart('\\'));
+
+                    // Verifica se o arquivo existe
+                    if (System.IO.File.Exists(caminhoArquivoExistente))
+                    {
+                        // Remove o arquivo existente
+                        System.IO.File.Delete(caminhoArquivoExistente);
+                    }
+                }
+
                 // Obtém o caminho completo do diretório onde será salvo o arquivo  
                 var caminhoArquivo = Path.Combine(wwwRootPath, @"imagens\produtos");
 
@@ -112,8 +127,18 @@ public class ProdutoController : Controller
                 produtoViewModel.Produto.ImagemUrl = @"\imagens\produtos\" + nomeArquivo + extensao;
             }
 
-            // Adiciona o objeto produto ao contexto do banco de dados
-            _unitOfWork.Produto.Adicionar(produtoViewModel.Produto);
+            // Verifica se o produto já existe no banco de dados
+            if (produtoViewModel.Produto.Id > 0)
+            {
+                // Atualiza o produto no contexto do banco de dados
+                _unitOfWork.Produto.Atualizar(produtoViewModel.Produto);
+            }
+            else
+            {
+                // Adiciona o produto ao contexto do banco de dados
+                _unitOfWork.Produto.Adicionar(produtoViewModel.Produto);
+            }
+
             // Salva as alterações no banco de dados
             _unitOfWork.Salvar();
             // Adiciona uma mensagem de sucesso na sessão
