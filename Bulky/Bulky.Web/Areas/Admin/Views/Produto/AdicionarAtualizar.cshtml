@@ -4,12 +4,13 @@
     <div class="card-header bg-secondary bg-gradient ml-0 py-3">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="text-white py-2">Novo Produto</h2>
+                <h2 class="text-white py-2">@(Model.Produto.Id != 0 ? "Atualizar" : "Novo") Produto</h2>
             </div>
         </div>
     </div>
     <div class="card-body p-4">
         <form method="post" class="row" enctype="multipart/form-data">
+            <input asp-for="Produto.Id" hidden />
             <div class="border p-3">
                 <div class="form-floating py-2 col-12">
                     <input asp-for="Produto.Titulo" class="form-control border-0 shadow" />
@@ -65,14 +66,17 @@
 
                 <div class="row pt-2">
                     <div class="col-6 col-md-3">
-                        <button type="submit" class="btn btn-primary form-control">
-                            <i class="bi bi-plus-circle"></i> Adicionar
-                        </button>
+                        @if (Model.Produto.Id != 0)
+                        {
+                            <button type="submit" class="btn btn-primary form-control"><i class="bi bi-pencil-square"></i> Alterar </button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-primary form-control"><i class="bi bi-plus-circle"></i> Adicionar </button>
+                        }
                     </div>
                     <div class="col-6 col-md-3">
-                        <a asp-controller="Produto" asp-action="Index" class="btn btn-outline-primary border form-control">
-                            <i class="bi bi-arrow-left-circle"></i> Voltar
-                        </a>
+                        <a asp-controller="Produto" asp-action="Index" class="btn btn-outline-primary border form-control"><i class="bi bi-arrow-left-circle"></i> Voltar </a>
                     </div>
                 </div>
             </div>

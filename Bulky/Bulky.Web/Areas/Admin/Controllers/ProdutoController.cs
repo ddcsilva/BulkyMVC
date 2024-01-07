@@ -34,11 +34,11 @@ public class ProdutoController : Controller
     }
 
     /// <summary>
-    /// Action responsável por exibir o formulário de adição de produto.
+    /// Action responsável por adicionar ou atualizar um produto.
     /// </summary>
-    /// <returns> View com o formulário de adição de produto. </returns>
+    /// <returns> View com o formulário de adição ou atualização de um produto. </returns>
     [HttpGet]
-    public IActionResult Adicionar()
+    public IActionResult AdicionarAtualizar(int? id)
     {
         var produtoViewModel = new ProdutoViewModel
         {
@@ -52,16 +52,35 @@ public class ProdutoController : Controller
             })
         };
 
-        return View(produtoViewModel);
+        // Verifica se o id é nulo ou menor ou igual a zero
+        if (id == null || id <= 0)
+        {
+            // Retorna a view com o formulário de adição de produto
+            return View(produtoViewModel);
+        }
+        else
+        {
+            // Busca o produto no banco de dados
+            produtoViewModel.Produto = _unitOfWork.Produto.Obter(p => p.Id == id);
+
+            // Verifica se o produto foi encontrado
+            if (produtoViewModel.Produto == null)
+            {
+                // Retorna um erro HTTP 404
+                return NotFound();
+            }
+
+            return View(produtoViewModel);
+        }
     }
 
     /// <summary>
-    /// Action responsável por adicionar um produto.
+    /// Action responsável por adicionar ou atualizar um produto.
     /// </summary>
     /// <param name="produto"> Objeto produto preenchido com os dados do formulário. </param>
     /// <returns> Redireciona para a action Index ou retorna a view com o formulário preenchido. </returns>
     [HttpPost]
-    public IActionResult Adicionar(ProdutoViewModel produtoViewModel)
+    public IActionResult AdicionarAtualizar(ProdutoViewModel produtoViewModel, IFormFile? formFile)
     {
         // Verifica se o modelo é válido
         if (ModelState.IsValid)
@@ -87,61 +106,6 @@ public class ProdutoController : Controller
             // Se o modelo não for válido, retorna a view com o formulário preenchido
             return View(produtoViewModel);
         }
-    }
-
-    /// <summary>
-    /// Action responsável por exibir o formulário de alteração de produto.
-    /// </summary>
-    /// <param name="id"> Id do produto a ser alterado. </param>
-    /// <returns> View com o formulário de alteração de produto. </returns>
-    [HttpGet]
-    public IActionResult Alterar(int? id)
-    {
-        // Verifica se o id é nulo ou menor ou igual a zero
-        if (id == null || id <= 0)
-        {
-            // Retorna um erro HTTP 404
-            return NotFound();
-        }
-
-        // Busca o produto no banco de dados
-        var produtoParaAlterar = _unitOfWork.Produto.Obter(p => p.Id == id);
-
-        // Verifica se o produto foi encontrado
-        if (produtoParaAlterar == null)
-        {
-            // Retorna um erro HTTP 404
-            return NotFound();
-        }
-
-        // Retorna a view com o produto a ser alterado
-        return View(produtoParaAlterar);
-    }
-
-    /// <summary>
-    /// Action responsável por alterar um produto.
-    /// </summary>
-    /// <param name="produto"> Objeto produto preenchido com os dados do formulário. </param>
-    /// <returns> Redireciona para a action Index ou retorna a view com o formulário preenchido. </returns>
-    [HttpPost]
-    public IActionResult Alterar(Produto produto)
-    {
-        // Verifica se o modelo é válido
-        if (ModelState.IsValid)
-        {
-            // Atualiza o produto no contexto do banco de dados
-            _unitOfWork.Produto.Atualizar(produto);
-            // Salva as alterações no banco de dados
-            _unitOfWork.Salvar();
-            // Adiciona uma mensagem de sucesso na sessão
-            TempData["MensagemSucesso"] = "Produto alterado com sucesso.";
-
-            // Redireciona para a action Index
-            return RedirectToAction(nameof(Index));
-        }
-
-        // Se o modelo não for válido, retorna a view com o formulário preenchido
-        return View();
     }
 
     [HttpGet]
