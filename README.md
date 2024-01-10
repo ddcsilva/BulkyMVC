@@ -1,5 +1,7 @@
 # .NET Core MVC - The Complete Guide 2023
 
+Repositório contendo exercícios e projeto desenvolvido no curso.
+
 ## Instrutor
 Bhrugen Patel
 
